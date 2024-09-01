@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 650px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="number"],
+        input[type="checkbox"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        button {
+            grid-column: span 2;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: 20px auto;
+            text-align: center;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            font-size: 18px;
+            color: #555;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Prediction</h1>
+
+    <form method="POST" action="/predict">
+        <div>
+            <label>Number of Male Medicare Patients (Annual):</label>
+            <input type="number" name="Bene_Male_Cnt" step="1" min="0" required>
+        </div>
+        <div>
+            <label>Total Annual Charges Submitted to Medicare ($):</label>
+            <input type="number" name="Tot_Sbmtd_Chrg" step="any" min="0" required>
+        </div>
+        <div>
+            <label>Is Provider a Nurse Practitioner?</label>
+            <input type="checkbox" name="is_NP" value="1">
+        </div>
+        <div>
+            <label>Total Annual Reimbursement from Medicare ($):</label>
+            <input type="number" name="Tot_Mdcr_Pymt_Amt" step="any" min="0" required>
+        </div>
+        <div>
+            <label>Total Annual Unique HCPCS Codes Billed to Medicare:</label>
+            <input type="number" name="Tot_HCPCS_Cds" step="1" min="0" required>
+        </div>
+        <div>
+            <label>Number of Female Medicare Patients (Annual):</label>
+            <input type="number" name="Bene_Feml_Cnt" step="1" min="0" required>
+        </div>
+        <div>
+            <label>Is Provider a Medical Doctor (MD)?</label>
+            <input type="checkbox" name="has_MD" value="1">
+        </div>
+        <div>
+            <label>Average Patient Medical Risk Score:</label>
+            <input type="number" name="Bene_Avg_Risk_Scre" step="any" min="0" required>
+        </div>
+        <div>
+            <label>Total Annual Number of Billed Medical Services:</label>
+            <input type="number" name="Med_Tot_Srvcs" step="1" min="0" required>
+        </div>
+        <div>
+            <label>Total Number of Medicare Patients Who Received Medical Benefits (Annual):</label>
+            <input type="number" name="Med_Tot_Benes" step="1" min="0" required>
+        </div>
+        <div>
+            <label>Total Number of Medicare Patients Who Received Any Care from Provider (Annual):</label>
+            <input type="number" name="Tot_Benes" step="1" min="0" required>
+        </div>
+        <div>
+            <label>Total Number of Billed Services (Annual):</label>
+            <input type="number" name="Tot_Srvcs" step="1" min="0" required>
+        </div>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if predict is not none %}
+    <div class="result show">
+        <h2>Result</h2>
+        <p>Physician Gender Prediction: {{ predict }}</p>
+    </div>
+    {% endif %}
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wk4-final-project
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wk4-final-project
+  template:
+    metadata:
+      labels:
+        app: wk4-final-project
+    spec:
+      containers:
+      - name: wk4-project-container
+        image: jfisher43/wk4_final_project
+        ports:
+        - containerPort: 5000
